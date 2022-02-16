@@ -4,8 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-public class LeaveCounters
-{
+public class LeaveCounters {
+	
 	@OneToOne
 	private User user;
 	private Integer remainingPaidLeaves;
@@ -13,53 +13,52 @@ public class LeaveCounters
 	private Integer remainingRtt;
 	private Integer rttTaken;
 	private Integer unpaidLeavesTaken;
-	
-	public User getUser()
-	{
+
+	public User getUser() {
 		return user;
 	}
-	public void setUser(User user)
-	{
+	
+	public void setUser(User user) {
 		this.user = user;
 	}
-	public Integer getRemainingPaidLeaves()
-	{
+	
+	public Integer getRemainingPaidLeaves() {
 		return remainingPaidLeaves;
 	}
-	public void setRemainingPaidLeaves(Integer remainingPaidLeaves)
-	{
+	
+	public void setRemainingPaidLeaves(Integer remainingPaidLeaves) {
 		this.remainingPaidLeaves = remainingPaidLeaves;
 	}
-	public Integer getPaidLeavesTaken()
-	{
+	
+	public Integer getPaidLeavesTaken() {
 		return paidLeavesTaken;
 	}
-	public void setPaidLeavesTaken(Integer paidLeavesTaken)
-	{
+	
+	public void setPaidLeavesTaken(Integer paidLeavesTaken) {
 		this.paidLeavesTaken = paidLeavesTaken;
 	}
-	public Integer getRemainingRtt()
-	{
+	
+	public Integer getRemainingRtt() {
 		return remainingRtt;
 	}
-	public void setRemainingRtt(Integer remainingRtt)
-	{
+	
+	public void setRemainingRtt(Integer remainingRtt) {
 		this.remainingRtt = remainingRtt;
 	}
-	public Integer getRttTaken()
-	{
+	
+	public Integer getRttTaken() {
 		return rttTaken;
 	}
-	public void setRttTaken(Integer rttTaken)
-	{
+	
+	public void setRttTaken(Integer rttTaken) {
 		this.rttTaken = rttTaken;
 	}
-	public Integer getUnpaidLeavesTaken()
-	{
+	
+	public Integer getUnpaidLeavesTaken() {
 		return unpaidLeavesTaken;
 	}
-	public void setUnpaidLeavesTaken(Integer unpaidLeavesTaken)
-	{
+	
+	public void setUnpaidLeavesTaken(Integer unpaidLeavesTaken) {
 		this.unpaidLeavesTaken = unpaidLeavesTaken;
 	}
 }

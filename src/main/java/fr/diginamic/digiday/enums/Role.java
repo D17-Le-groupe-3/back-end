@@ -1,7 +1,7 @@
 package fr.diginamic.digiday.enums;
 
-public enum Role
-{
+public enum Role {
+	
 	ADMINISTRATOR,
 	EMPLOYEE,
 	MANAGER,

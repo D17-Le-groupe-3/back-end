@@ -1,7 +1,7 @@
 package fr.diginamic.digiday.enums;
 
-public enum LeaveStatus
-{
+public enum LeaveStatus {
+	
 	INITIALE,
 	EN_ATTENTE_VALIDATION,
 	VALIDEE,
