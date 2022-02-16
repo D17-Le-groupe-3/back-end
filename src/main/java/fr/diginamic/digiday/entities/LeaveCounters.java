@@ -6,8 +6,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class LeaveCounters extends BaseEntity {
 	
-	@OneToOne
-	private User user;
 	private Integer remainingPaidLeaves;
 	private Integer paidLeavesTaken;
 	private Integer remainingRtt;
@@ -18,22 +16,13 @@ public class LeaveCounters extends BaseEntity {
 		super();
 	}
 
-	public LeaveCounters(User user, Integer remainingPaidLeaves, Integer paidLeavesTaken, Integer remainingRtt, Integer rttTaken, Integer unpaidLeavesTaken) {
+	public LeaveCounters(Integer remainingPaidLeaves, Integer paidLeavesTaken, Integer remainingRtt, Integer rttTaken, Integer unpaidLeavesTaken) {
 		super();
-		this.user = user;
 		this.remainingPaidLeaves = remainingPaidLeaves;
 		this.paidLeavesTaken = paidLeavesTaken;
 		this.remainingRtt = remainingRtt;
 		this.rttTaken = rttTaken;
 		this.unpaidLeavesTaken = unpaidLeavesTaken;
-	}
-
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
 	}
 	
 	public Integer getRemainingPaidLeaves() {
