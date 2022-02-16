@@ -6,16 +6,26 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Company extends BaseEntitie {
+public class Company extends BaseEntity {
 
 	private Integer remainingRtt;
 	private Integer rttTaken;
 
-	@OneToMany
+	@OneToMany(mappedBy = "company")
 	private List<Service> services;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "company")
 	private List<CompanyHoliday> companyHolidays;
+
+	public Company() {
+		super();
+	}
+
+	public Company(Integer remainingRtt, Integer rttTaken) {
+		super();
+		this.remainingRtt = remainingRtt;
+		this.rttTaken = rttTaken;
+	}
 
 	public Integer getRemainingRtt() {
 		return remainingRtt;

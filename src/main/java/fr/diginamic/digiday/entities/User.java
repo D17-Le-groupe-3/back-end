@@ -9,8 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import fr.diginamic.digiday.enums.Role;
+
 @Entity
-public class User extends BaseEntitie {
+public class User extends BaseEntity {
 
 	private String lastName;
 	private String firstName;
@@ -18,7 +20,7 @@ public class User extends BaseEntitie {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	private String role;
+	private Role role;
 
 	@ManyToOne
 	private Service service;
@@ -29,8 +31,23 @@ public class User extends BaseEntitie {
 	@OneToOne
 	private LeaveCounters leaveCounters;
 
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	private List<Leave> leaves;
+
+	public User() {
+		super();
+	}
+
+	public User(String lastName, String firstName, String email, String password, Role role, Service service, User manager) {
+		super();
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.service = service;
+		this.manager = manager;
+	}
 
 	public String getLastName() {
 		return lastName;
@@ -64,11 +81,11 @@ public class User extends BaseEntitie {
 		this.password = password;
 	}
 	
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 	
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	

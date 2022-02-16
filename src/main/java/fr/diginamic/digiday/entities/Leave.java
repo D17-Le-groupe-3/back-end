@@ -6,25 +6,41 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import fr.diginamic.digiday.enums.LeaveStatus;
 import fr.diginamic.digiday.enums.LeaveType;
 
 @Entity
-public class Leave extends BaseEntitie {
+@Table(name = "leave_")
+public class Leave extends BaseEntity {
 	
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private String reason;
 	
 	@Enumerated(EnumType.STRING)
 	private LeaveType type;
-	private String reason;
 	
 	@Enumerated(EnumType.STRING)
 	private LeaveStatus status;
 
 	@ManyToOne
 	private User user;
+
+	public Leave() {
+		super();
+	}
+
+	public Leave(LocalDate startDate, LocalDate endDate, String reason,	LeaveType type, LeaveStatus status, User user) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.reason = reason;
+		this.type = type;
+		this.status = status;
+		this.user = user;
+	}
 
 	public LocalDate getStartDate() {
 		return startDate;

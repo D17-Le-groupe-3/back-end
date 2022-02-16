@@ -10,16 +10,28 @@ import javax.persistence.ManyToOne;
 import fr.diginamic.digiday.enums.CompanyHolidayType;
 
 @Entity
-public class CompanyHoliday extends BaseEntitie {
+public class CompanyHoliday extends BaseEntity {
 	
 	private LocalDate date;
+	private String comment;
 	
 	@Enumerated(EnumType.STRING)
 	private CompanyHolidayType type;
-	private String comment;
 
 	@ManyToOne
 	private Company company;
+	
+	public CompanyHoliday() {
+		super();
+	}
+
+	public CompanyHoliday(LocalDate date, String comment, CompanyHolidayType type, Company company) {
+		super();
+		this.date = date;
+		this.comment = comment;
+		this.type = type;
+		this.company = company;
+	}
 
 	public LocalDate getDate() {
 		return date;
