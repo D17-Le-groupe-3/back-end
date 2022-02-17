@@ -17,6 +17,8 @@ spring:
     ansi:
       enabled: ALWAYS
   security:
+    ignored:
+      - "*.bundle.*"
     user:
       password: password
 
