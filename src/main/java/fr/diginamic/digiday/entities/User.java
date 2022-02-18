@@ -23,7 +23,7 @@ public class User extends BaseEntity {
 	private Role role;
 
 	@ManyToOne
-	private Service service;
+	private Department department;
 
 	@ManyToOne
 	private User manager;
@@ -38,14 +38,14 @@ public class User extends BaseEntity {
 		super();
 	}
 
-	public User(String lastName, String firstName, String email, String password, Role role, Service service, User manager) {
+	public User(String lastName, String firstName, String email, String password, Role role, Department department, User manager) {
 		super();
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.service = service;
+		this.department = department;
 		this.manager = manager;
 	}
 
@@ -89,14 +89,30 @@ public class User extends BaseEntity {
 		this.role = role;
 	}
 	
-	public Service getService() {
-		return service;
+	public Department getDepartment() {
+		return department;
 	}
-	
-	public void setService(Service service) {
-		this.service = service;
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
-	
+
+	public LeaveCounters getLeaveCounters() {
+		return leaveCounters;
+	}
+
+	public void setLeaveCounters(LeaveCounters leaveCounters) {
+		this.leaveCounters = leaveCounters;
+	}
+
+	public List<Leave> getLeaves() {
+		return leaves;
+	}
+
+	public void setLeaves(List<Leave> leaves) {
+		this.leaves = leaves;
+	}
+
 	public User getManager() {
 		return manager;
 	}

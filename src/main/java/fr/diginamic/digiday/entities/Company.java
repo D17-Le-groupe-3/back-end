@@ -12,7 +12,7 @@ public class Company extends BaseEntity {
 	private Integer rttTaken;
 
 	@OneToMany(mappedBy = "company")
-	private List<Service> services;
+	private List<Department> department;
 	
 	@OneToMany(mappedBy = "company")
 	private List<CompanyHoliday> companyHolidays;
@@ -43,12 +43,12 @@ public class Company extends BaseEntity {
 		this.rttTaken = rttTaken;
 	}
 
-	public List<Service> getServices() {
-		return services;
+	public List<Department> getDepartment() {
+		return department;
 	}
 
-	public void setServices(List<Service> services) {
-		this.services = services;
+	public void setDepartment(List<Department> department) {
+		this.department = department;
 	}
 
 	public List<CompanyHoliday> getCompanyHolidays() {
