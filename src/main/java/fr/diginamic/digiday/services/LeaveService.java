@@ -10,6 +10,7 @@ import fr.diginamic.digiday.entities.User;
 import fr.diginamic.digiday.enums.LeaveStatus;
 import fr.diginamic.digiday.enums.LeaveType;
 import fr.diginamic.digiday.exceptions.DigidayBadRequestException;
+import fr.diginamic.digiday.exceptions.DigidayNotFoundException;
 import fr.diginamic.digiday.repositories.LeaveRepository;
 import fr.diginamic.digiday.repositories.UserRepository;
 
@@ -42,7 +43,7 @@ public class LeaveService {
 		if (leave.getType().equals(LeaveType.UNPAID_LEAVE) && leave.getReason().isEmpty())
 			throw new DigidayBadRequestException("Reason is required for leaves of type UNPAID_LEAVE");
 		
-		User user = userRepo.findById(createLeaveDto.getUserId()).orElseThrow(() -> new DigidayBadRequestException("User with ID " + createLeaveDto.getUserId() + " does not exist"));
+		User user = userRepo.findById(createLeaveDto.getUserId()).orElseThrow(() -> new DigidayNotFoundException("User with ID " + createLeaveDto.getUserId() + " does not exist"));
 		leave.setUser(user);
 		leave.setStatus(LeaveStatus.INITIAL);
 			
