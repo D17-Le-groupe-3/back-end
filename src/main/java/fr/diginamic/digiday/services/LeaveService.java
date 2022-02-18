@@ -29,7 +29,7 @@ public class LeaveService {
 		Leave leave = new Leave();
 		leave.setStartDate(createLeaveDto.getStartDate());
 		leave.setEndDate(createLeaveDto.getEndDate());
-		if (leave.getStartDate().compareTo(leave.getEndDate()) < 0)
+		if (leave.getStartDate().compareTo(leave.getEndDate()) > 0)
 			throw new DigidayBadRequestException("Start date is after end date");
 		
 		try {
