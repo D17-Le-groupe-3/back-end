@@ -21,6 +21,17 @@ public class CreateLeaveDto {
 	private String reason;
 	private Integer userId;
 	
+	public CreateLeaveDto() {
+	}
+
+	public CreateLeaveDto(LocalDate startDate, LocalDate endDate, String type, String reason, Integer userId) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.type = type;
+		this.reason = reason;
+		this.userId = userId;
+	}
+
 	public LocalDate getStartDate() {
 		return startDate;
 	}

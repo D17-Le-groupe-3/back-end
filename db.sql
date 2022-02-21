@@ -41,3 +41,4 @@ INSERT INTO user (id, email, first_name, last_name, password, role, department_i
 INSERT INTO user (id, email, first_name, last_name, password, role, department_id, leave_counters_id, manager_id) VALUES (11, 'marc.jarre@gmail.com', 'Marc', 'Jarre', '123456', 'EMPLOYEE', 4, 11, 10);
 INSERT INTO user (id, email, first_name, last_name, password, role, department_id, leave_counters_id, manager_id) VALUES (12, 'simone.muret@gmail.com', 'Simone', 'Muret', '123456', 'EMPLOYEE', 4, 12, 10);
 INSERT INTO leave_ (id, start_date, end_date, type, reason, status, user_id) VALUES (1, '2022-03-07', '2022-03-18', 'PAID_LEAVE', '', 'VALIDATED', 2);
+INSERT INTO leave_ (id, start_date, end_date, type, reason, status, user_id) VALUES (2, '2022-08-01', '2022-08-12', 'PAID_LEAVE', '', 'PENDING_VALIDATION', 2);
