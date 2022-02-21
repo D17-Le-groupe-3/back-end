@@ -32,8 +32,7 @@ public class LeaveController {
 	}
 	
 	@ExceptionHandler(DigidayWebApiException.class)
-	public ResponseEntity<String> onDigidayWebApiException(DigidayWebApiException ex)
-	{
+	public ResponseEntity<String> onDigidayWebApiException(DigidayWebApiException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
 }

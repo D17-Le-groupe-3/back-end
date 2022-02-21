@@ -46,8 +46,7 @@ public class LeaveService {
 		return leaveRepo.save(leave);
 	}
 	
-	private User getUserById(Integer id) throws DigidayNotFoundException
-	{
+	private User getUserById(Integer id) throws DigidayNotFoundException {
 		return userRepo.findById(id).orElseThrow(() -> new DigidayNotFoundException("User with ID " + id + " does not exist"));
 	}
 

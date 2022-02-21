@@ -29,8 +29,7 @@ public class LeaveServiceTest {
 	private LeaveService leaveService;
 	
 	@Test
-	public void createLeaveValidTest()
-	{
+	public void createLeaveValidTest() {
 		CreateLeaveDto data = new CreateLeaveDto(LocalDate.parse("2022-03-18"), LocalDate.parse("2022-04-04"), "", "RTT", 3);
 		Leave leave = leaveService.createLeave(data);
 		assertAll(
@@ -43,8 +42,7 @@ public class LeaveServiceTest {
 	}
 	
 	@Test (expected = DigidayWebApiException.class)
-	public void createLeaveInvalidTest()
-	{
+	public void createLeaveInvalidTest() {
 		CreateLeaveDto data = new CreateLeaveDto(LocalDate.parse("2022-03-18"), LocalDate.parse("2022-04-04"), "", "RTTA", 3);
 		Leave leave = leaveService.createLeave(data);
 	}
