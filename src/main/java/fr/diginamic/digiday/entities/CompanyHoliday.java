@@ -8,12 +8,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 
 import fr.diginamic.digiday.enums.CompanyHolidayType;
+import fr.diginamic.digiday.enums.LeaveStatus;
 
 @Entity
 public class CompanyHoliday extends BaseEntity {
 	
 	private LocalDate date;
 	private String comment;
+	
+	@Enumerated(EnumType.STRING)
+	private LeaveStatus status;
 	
 	@Enumerated(EnumType.STRING)
 	private CompanyHolidayType type;
@@ -25,10 +29,11 @@ public class CompanyHoliday extends BaseEntity {
 		super();
 	}
 
-	public CompanyHoliday(LocalDate date, String comment, CompanyHolidayType type, Company company) {
+	public CompanyHoliday(LocalDate date, String comment, LeaveStatus status, CompanyHolidayType type, Company company) {
 		super();
 		this.date = date;
 		this.comment = comment;
+		this.status = status;
 		this.type = type;
 		this.company = company;
 	}
@@ -63,5 +68,13 @@ public class CompanyHoliday extends BaseEntity {
 	
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public LeaveStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(LeaveStatus status) {
+		this.status = status;
 	}
 }
