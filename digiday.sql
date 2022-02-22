@@ -197,18 +197,18 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `first_name`, `last_name`, `password`, `role`, `department_id`, `leave_counters_id`, `manager_id`) VALUES
-(1, 'jean-eudes.marouflard@gmail.com', 'Jean-Eudes', 'Marouflard', '123456', 'MANAGER', 1, 1, NULL),
-(2, 'marguerite.duchene@gmail.com', 'Marguerite', 'Duchêne', '123456', 'MANAGER', 3, 2, 1),
-(3, 'christian.dumaine@gmail.com', 'Christian', 'Du Maine', '123456', 'EMPLOYEE', 3, 3, 2),
-(4, 'jean-jacques.martin@gmail.com', 'Jean-Jacques', 'Martin', '123456', 'ADMINISTRATOR', 1, 4, 1),
-(5, 'juliette.marie@gmail.com', 'Juliette', 'Marie', '123456', 'MANAGER', 2, 5, 1),
-(6, 'paul.fleuve@gmail.com', 'Paul', 'Fleuve', '123456', 'EMPLOYEE', 2, 6, 5),
-(7, 'christine.maitre@gmail.com', 'Christine', 'Maitre', '123456', 'EMPLOYEE', 2, 7, 5),
-(8, 'adrien.marcher@gmail.com', 'Adrien', 'Marcher', '123456', 'EMPLOYEE', 2, 8, 5),
-(9, 'hubert.creux@gmail.com', 'Hubert', 'Creux', '123456', 'EMPLOYEE', 2, 9, 5),
-(10, 'gaelle.sachet@gmail.com', 'Gaëlle', 'Sachet', '123456', 'MANAGER', 4, 10, 1),
-(11, 'marc.jarre@gmail.com', 'Marc', 'Jarre', '123456', 'EMPLOYEE', 4, 11, 10),
-(12, 'simone.muret@gmail.com', 'Simone', 'Muret', '123456', 'EMPLOYEE', 4, 12, 10);
+(1, 'jean-eudes.marouflard@yopmail.com', 'Jean-Eudes', 'Marouflard', '123456', 'MANAGER', 1, 1, NULL),
+(2, 'marguerite.duchene@yopmail.com', 'Marguerite', 'Duchêne', '123456', 'MANAGER', 3, 2, 1),
+(3, 'christian.dumaine@yopmail.com', 'Christian', 'Du Maine', '123456', 'EMPLOYEE', 3, 3, 2),
+(4, 'jean-jacques.martin@yopmail.com', 'Jean-Jacques', 'Martin', '123456', 'ADMINISTRATOR', 1, 4, 1),
+(5, 'juliette.marie@yopmail.com', 'Juliette', 'Marie', '123456', 'MANAGER', 2, 5, 1),
+(6, 'paul.fleuve@yopmail.com', 'Paul', 'Fleuve', '123456', 'EMPLOYEE', 2, 6, 5),
+(7, 'christine.maitre@yopmail.com', 'Christine', 'Maitre', '123456', 'EMPLOYEE', 2, 7, 5),
+(8, 'adrien.marcher@yopmail.com', 'Adrien', 'Marcher', '123456', 'EMPLOYEE', 2, 8, 5),
+(9, 'hubert.creux@yopmail.com', 'Hubert', 'Creux', '123456', 'EMPLOYEE', 2, 9, 5),
+(10, 'gaelle.sachet@yopmail.com', 'Gaëlle', 'Sachet', '123456', 'MANAGER', 4, 10, 1),
+(11, 'marc.jarre@yopmail.com', 'Marc', 'Jarre', '123456', 'EMPLOYEE', 4, 11, 10),
+(12, 'simone.muret@yopmail.com', 'Simone', 'Muret', '123456', 'EMPLOYEE', 4, 12, 10);
 
 --
 -- Index pour les tables déchargées
