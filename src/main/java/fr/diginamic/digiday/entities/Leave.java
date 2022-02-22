@@ -1,20 +1,16 @@
 package fr.diginamic.digiday.entities;
 
-import java.time.LocalDate;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import fr.diginamic.digiday.enums.LeaveStatus;
 import fr.diginamic.digiday.enums.LeaveType;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @Table(name = "leave_")
 public class Leave extends BaseEntity {
-	
+
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String reason;
@@ -40,6 +36,10 @@ public class Leave extends BaseEntity {
 		this.type = type;
 		this.status = status;
 		this.user = user;
+	}
+
+	public Integer getDuration() {
+		return Period.between(startDate, endDate).getDays() + 1;
 	}
 
 	public LocalDate getStartDate() {
@@ -73,7 +73,7 @@ public class Leave extends BaseEntity {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	
+
 	public LeaveStatus getStatus() {
 		return status;
 	}

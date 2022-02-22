@@ -1,7 +1,6 @@
 package fr.diginamic.digiday.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 @Entity
 public class LeaveCounters extends BaseEntity {
@@ -23,6 +22,14 @@ public class LeaveCounters extends BaseEntity {
 		this.remainingRtt = remainingRtt;
 		this.rttTaken = rttTaken;
 		this.unpaidLeavesTaken = unpaidLeavesTaken;
+	}
+
+	public void increaseRemainingPaidLeaves(Integer count) {
+		remainingPaidLeaves += count;
+	}
+
+	public void increaseRemainingRtt(Integer count) {
+		remainingRtt += count;
 	}
 	
 	public Integer getRemainingPaidLeaves() {

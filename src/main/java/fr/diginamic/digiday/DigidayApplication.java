@@ -1,5 +1,6 @@
 package fr.diginamic.digiday;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -22,5 +23,10 @@ public class DigidayApplication {
 				registry.addMapping("/**").allowedOrigins("http://localhost:4200");
 			}
 		};
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 }

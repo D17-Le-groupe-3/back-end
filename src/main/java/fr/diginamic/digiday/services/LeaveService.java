@@ -1,29 +1,34 @@
 package fr.diginamic.digiday.services;
 
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
 import fr.diginamic.digiday.dto.CreateLeaveDto;
 import fr.diginamic.digiday.entities.Leave;
+import fr.diginamic.digiday.entities.LeaveCounters;
 import fr.diginamic.digiday.entities.User;
 import fr.diginamic.digiday.enums.LeaveStatus;
 import fr.diginamic.digiday.enums.LeaveType;
 import fr.diginamic.digiday.exceptions.DigidayBadRequestException;
 import fr.diginamic.digiday.exceptions.DigidayNotFoundException;
 import fr.diginamic.digiday.exceptions.DigidayWebApiException;
+import fr.diginamic.digiday.repositories.LeaveCountersRepository;
 import fr.diginamic.digiday.repositories.LeaveRepository;
 import fr.diginamic.digiday.repositories.UserRepository;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LeaveService {
 
-	private LeaveRepository leaveRepo;
-	private UserRepository userRepo;
+	private final LeaveRepository leaveRepo;
+	private final UserRepository userRepo;
+	private final LeaveCountersRepository leaveCountersRepo;
 
-	public LeaveService(LeaveRepository leaveRepo, UserRepository userRepo) {
+	public LeaveService(LeaveRepository leaveRepo, UserRepository userRepo, LeaveCountersRepository leaveCountersRepo) {
 		this.leaveRepo = leaveRepo;
 		this.userRepo = userRepo;
+		this.leaveCountersRepo = leaveCountersRepo;
 	}
 
 	@Transactional
@@ -48,6 +53,42 @@ public class LeaveService {
 	
 	private User getUserById(Integer id) throws DigidayNotFoundException {
 		return userRepo.findById(id).orElseThrow(() -> new DigidayNotFoundException("User with ID " + id + " does not exist"));
+	}
+
+	public List<Leave> getLeavesToValidateByDepartment(Integer departmentId) {
+		List<Leave> leaves = leaveRepo.findByUserDepartmentIdAndStatusIn(departmentId, List.of(LeaveStatus.PENDING_VALIDATION, LeaveStatus.REJECTED));
+		if (leaves.isEmpty())
+			throw new DigidayNotFoundException("No leaves found");
+		return leaves;
+	}
+
+	private Leave findLeaveAndSetStatus(Integer leaveId, LeaveStatus status) {
+		Optional<Leave> optionalLeave = leaveRepo.findByIdAndStatus(leaveId, LeaveStatus.PENDING_VALIDATION);
+		if (optionalLeave.isEmpty())
+			throw new DigidayNotFoundException("No leave with the id " + leaveId + "and pending validation was found");
+
+		Leave leave = optionalLeave.get();
+		leave.setStatus(status);
+		return leave;
+	}
+
+	public Leave validateLeave(Integer leaveId) {
+		Leave leave = findLeaveAndSetStatus(leaveId, LeaveStatus.VALIDATED);
+
+		return leaveRepo.save(leave);
+	}
+
+	public Leave rejectLeave(Integer leaveId) {
+		Leave leave = findLeaveAndSetStatus(leaveId, LeaveStatus.REJECTED);
+
+		LeaveCounters leaveCounters = leave.getUser().getLeaveCounters();
+		if (leave.getType() == LeaveType.PAID_LEAVE)
+			leaveCounters.increaseRemainingPaidLeaves(leave.getDuration());
+		if (leave.getType() == LeaveType.RTT)
+			leaveCounters.increaseRemainingRtt(leave.getDuration());
+		leaveCountersRepo.save(leaveCounters);
+
+		return leaveRepo.save(leave);
 	}
 
 	private void checkDatesRules(Leave leave) throws DigidayBadRequestException {
