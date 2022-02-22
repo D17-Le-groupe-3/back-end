@@ -129,7 +129,13 @@ INSERT INTO leave_ (id, start_date, end_date, type, reason, status, user_id) VAL
 
 -- Congés se superposant avec un jour férié au milieu. Une en INITIAL pour tester le calcul de jours décomptés par le batch de nuit
 (21, '2022-04-11', '2022-04-22', 'PAID_LEAVE', 'Attention au jour férié au milieu !', 'INITIAL', 10),
-
 (22, '2022-04-11', '2022-04-22', 'PAID_LEAVE', 'Attention au jour férié au milieu !', 'VALIDATED', 11),
+(23, '2022-04-11','2022-04-22', 'PAID_LEAVE', 'Attention au jour férié au milieu !', 'VALIDATED', 12),
 
-(23, '2022-04-11', '2022-04-22', 'PAID_LEAVE', 'Attention au jour férié au milieu !', 'VALIDATED', 12);
+-- Données crées pour tests de suppression
+(24, '2022-04-04','2022-04-19', 'PAID_LEAVE','Test unitaire suppression date future', 'VALIDATED', 12),
+(25, '2022-04-04','2022-04-19', 'PAID_LEAVE','Test unitaire suppression - status = PENDING_VALIDATION', 'PENDING_VALIDATION', 12),
+(26, '2022-04-04','2022-04-19', 'PAID_LEAVE','Test unitaire suppression - suppression ok',  'VALIDATED',  12),
+(27, '2022-02-22','2022-04-19', 'PAID_LEAVE','Test unitaire supression - date début = date du jour', 'VALIDATED',  12),
+(28, '2022-02-22','2022-04-19', 'PAID_LEAVE','Test unitaire supression - status = initial',  'INITIAL',  12),
+(29, '2022-02-22','2022-04-19', 'PAID_LEAVE','Test unitaire supression - status = initial', 'REJECTED',  12);
