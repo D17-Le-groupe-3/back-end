@@ -6,15 +6,20 @@ import java.util.List;
 import fr.diginamic.digiday.entities.Leave;
 
 public interface DtoUtils {
-	static CreateLeaveDto toCreateLeaveDto(Leave leave) {
-        return new CreateLeaveDto(leave.getStartDate(), leave.getEndDate(), leave.getType().toString(), leave.getReason(), leave.getUser().getId());
+    static CreateLeaveDto toCreateLeaveDto(Leave leave) {
+	return new CreateLeaveDto(leave.getStartDate(), leave.getEndDate(), leave.getType().toString(), leave.getReason(), leave.getUser().getId());
+    }
+
+    static ListModifyLeaveDto toListModifyLeaveDto(Leave leave) {
+	return new ListModifyLeaveDto(leave.getStartDate(), leave.getEndDate(), leave.getType().toString(), leave.getReason(),
+		leave.getUser().getId(), leave.getStatus().toString());
     }
 
     static List<CreateLeaveDto> toCreateLeaveDto(List<Leave> clients) {
-        List<CreateLeaveDto> clientsDto = new ArrayList<>();
-        for (Leave c : clients) {
-            clientsDto.add(toCreateLeaveDto(c));
-        }
-        return clientsDto;
+	List<CreateLeaveDto> clientsDto = new ArrayList<>();
+	for (Leave c : clients) {
+	    clientsDto.add(toCreateLeaveDto(c));
+	}
+	return clientsDto;
     }
 }

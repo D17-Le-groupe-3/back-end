@@ -33,7 +33,7 @@ public class LeaveController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteLeave(@PathVariable Integer id) {
-	return ResponseEntity.ok(DtoUtils.toCreateLeaveDto(leaveService.deleteLeave(id)));
+	return ResponseEntity.ok(DtoUtils.toListModifyLeaveDto(leaveService.deleteLeave(id)));
     }
 
     @ExceptionHandler(DigidayWebApiException.class)
