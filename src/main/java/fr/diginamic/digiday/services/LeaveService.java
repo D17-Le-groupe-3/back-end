@@ -209,7 +209,6 @@ public class LeaveService {
      * @since 1.0
      */
     private void checkRulesStatusBeforeDelete(Leave leave) throws DigidayBadRequestException {
-	System.out.println("leave.getStatus()" + leave.getStatus());
 	if (leave.getStatus().equals(LeaveStatus.PENDING_VALIDATION)) {
 	    throw new DigidayBadRequestException("You are not allowed to delete a leave whith the PENDING_VALIDATION status");
 	}
