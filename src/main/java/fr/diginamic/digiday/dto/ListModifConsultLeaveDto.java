@@ -7,9 +7,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * DTO permetant l'échange d'informations avec le front dans le cadre de la
- * création d'une demande de congés. Reprends l'ensemble des informations de
- * l'entité sauf le statut qui est fixé par défault à INITIAL
+ * DTO permetant l'échange d'informations avec le front dans le cadre de
+ * consultation ou modification de demande de congés
  * </p>
  * <ul>
  * Liste des attibuts
@@ -20,11 +19,13 @@ import javax.validation.constraints.NotNull;
  * <li>motif : Motif des congés obligatoire pour une demande de congés sans
  * solde. Facultatif dans les autres cas</li>
  * <li>userId : identifiant de l'utilisateur</li>
+ * <li>status : Statut de la demande
+ * (INITIAL,PENDING_VALIDATION,VALIDATED,REJECTED)</li>
  * 
- * @author LPOU & LOTT
+ * @author LOTT
  * @since 1.0
  */
-public class CreateLeaveDto {
+public class ListModifConsultLeaveDto {
 
     @NotNull
     @Future
@@ -37,19 +38,42 @@ public class CreateLeaveDto {
     @NotNull
     private String type;
 
+    @NotNull
+    private String status;
+
     private String reason;
     private Integer userId;
 
-    public CreateLeaveDto() {
+    /**
+     * <p>
+     * Constructeur sans paramètres
+     * </p>
+     */
+    public ListModifConsultLeaveDto() {
     }
 
-    public CreateLeaveDto(LocalDate startDate, LocalDate endDate, String type, String reason, Integer userId) {
+    /**
+     * <p>
+     * Constructeur
+     * </p>
+     * 
+     * @param startDate : Date de début de congé
+     * @param endDate   : Date de fin de congé
+     * @param type      : Type de congé (PAID_LEAVE, UNPAID_LEAVE,RTT)
+     * @param reason    : Motif des congés
+     * @param userId    : identifiant de l'utilisateur
+     * @param status    : Statut de la demande
+     */
+    public ListModifConsultLeaveDto(LocalDate startDate, LocalDate endDate, String type, String reason, Integer userId, String status) {
 	this.startDate = startDate;
 	this.endDate = endDate;
 	this.type = type;
 	this.reason = reason;
+	this.status = status;
 	this.userId = userId;
     }
+
+    // **** Getter et setter
 
     public LocalDate getStartDate() {
 	return startDate;
@@ -89,5 +113,19 @@ public class CreateLeaveDto {
 
     public void setUserId(Integer userId) {
 	this.userId = userId;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+	return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+	this.status = status;
     }
 }
