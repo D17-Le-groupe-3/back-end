@@ -5,7 +5,27 @@ import java.time.LocalDate;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
-public class ListModifyLeaveDto {
+/**
+ * <p>
+ * DTO permetant l'échange d'informations avec le front dans le cadre de
+ * consultation ou modification de demande de congés
+ * </p>
+ * <ul>
+ * Liste des attibuts
+ * </ul>
+ * <li>startDate : Date de début de congé</li>
+ * <li>endDate : Date de fin de congé</li>
+ * <li>type : Type de congé (PAID_LEAVE, UNPAID_LEAVE,RTT)</li>
+ * <li>motif : Motif des congés obligatoire pour une demande de congés sans
+ * solde. Facultatif dans les autres cas</li>
+ * <li>userId : identifiant de l'utilisateur</li>
+ * <li>status : Statut de la demande
+ * (INITIAL,PENDING_VALIDATION,VALIDATED,REJECTED)</li>
+ * 
+ * @author LOTT
+ * @since 1.0
+ */
+public class ListModifConsultLeaveDto {
 
     @NotNull
     @Future
@@ -24,10 +44,27 @@ public class ListModifyLeaveDto {
     private String reason;
     private Integer userId;
 
-    public ListModifyLeaveDto() {
+    /**
+     * <p>
+     * Constructeur sans paramètres
+     * </p>
+     */
+    public ListModifConsultLeaveDto() {
     }
 
-    public ListModifyLeaveDto(LocalDate startDate, LocalDate endDate, String type, String reason, Integer userId, String status) {
+    /**
+     * <p>
+     * Constructeur
+     * </p>
+     * 
+     * @param startDate : Date de début de congé
+     * @param endDate   : Date de fin de congé
+     * @param type      : Type de congé (PAID_LEAVE, UNPAID_LEAVE,RTT)
+     * @param reason    : Motif des congés
+     * @param userId    : identifiant de l'utilisateur
+     * @param status    : Statut de la demande
+     */
+    public ListModifConsultLeaveDto(LocalDate startDate, LocalDate endDate, String type, String reason, Integer userId, String status) {
 	this.startDate = startDate;
 	this.endDate = endDate;
 	this.type = type;
@@ -35,6 +72,8 @@ public class ListModifyLeaveDto {
 	this.status = status;
 	this.userId = userId;
     }
+
+    // **** Getter et setter
 
     public LocalDate getStartDate() {
 	return startDate;

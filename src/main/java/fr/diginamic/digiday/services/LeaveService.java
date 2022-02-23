@@ -17,6 +17,15 @@ import fr.diginamic.digiday.exceptions.DigidayWebApiException;
 import fr.diginamic.digiday.repositories.LeaveRepository;
 import fr.diginamic.digiday.repositories.UserRepository;
 
+/**
+ * <p>
+ * Classe service de gestion des demandes de congés
+ * </p>
+ * 
+ * @author LOTT
+ * @author LPOU
+ * @since 1.0
+ */
 @Service
 public class LeaveService {
 
