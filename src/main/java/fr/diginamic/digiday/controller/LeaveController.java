@@ -34,46 +34,46 @@ public class LeaveController {
     private final ModelMapper modelMapper;
 
     public LeaveController(LeaveService leaveService, ModelMapper modelMapper) {
-	this.leaveService = leaveService;
-	this.modelMapper = modelMapper;
+		this.leaveService = leaveService;
+		this.modelMapper = modelMapper;
     }
     
     @GetMapping("to-validate")
     @ResponseBody
     public List<LeaveDto> getToValidateByDepartment(@RequestParam Integer departmentId) {
-	return leaveService.getLeavesToValidateByDepartment(departmentId).stream().map(leave -> modelMapper.map(leave, LeaveDto.class))
+    	return leaveService.getLeavesToValidateByDepartment(departmentId).stream().map(leave -> modelMapper.map(leave, LeaveDto.class))
 		.collect(Collectors.toList());
     }
 
     @PostMapping("validate")
     @ResponseBody
     public LeaveDto validateLeave(@RequestBody Map<String, Integer> leaveId) {
-	return modelMapper.map(leaveService.validateLeave(leaveId.get("leaveId")), LeaveDto.class);
+    	return modelMapper.map(leaveService.validateLeave(leaveId.get("leaveId")), LeaveDto.class);
     }
 
     @PostMapping("reject")
     @ResponseBody
     public LeaveDto rejectLeave(@RequestBody Map<String, Integer> leaveId) {
-	return modelMapper.map(leaveService.rejectLeave(leaveId.get("leaveId")), LeaveDto.class);
+    	return modelMapper.map(leaveService.rejectLeave(leaveId.get("leaveId")), LeaveDto.class);
     }
     
     @GetMapping(path = "/user/{id}")
     public ResponseEntity<?> getLeavesForUser(@RequestBody @Validated @PathVariable Integer id) {
-    return ResponseEntity.ok(leaveService.getLeavesForUser(id).stream().map(leave -> modelMapper.map(leave, LeaveDto.class)));
+    	return ResponseEntity.ok(leaveService.getLeavesForUser(id).stream().map(leave -> modelMapper.map(leave, LeaveDto.class)));
     }
 
     @PostMapping
     public ResponseEntity<?> createLeave(@RequestBody @Validated CreateLeaveDto createLeaveDto) {
-	return ResponseEntity.ok(DtoUtils.toCreateLeaveDto(leaveService.createLeave(createLeaveDto)));
+    	return ResponseEntity.ok(DtoUtils.toCreateLeaveDto(leaveService.createLeave(createLeaveDto)));
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteLeave(@PathVariable Integer id) {
-	return ResponseEntity.ok(modelMapper.map(leaveService.deleteLeave(id), LeaveDto.class));
+    	return ResponseEntity.ok(modelMapper.map(leaveService.deleteLeave(id), LeaveDto.class));
     }
 
     @ExceptionHandler(DigidayWebApiException.class)
     public ResponseEntity<Map<String, String>> onDigidayWebApiException(DigidayWebApiException ex) {
-	return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(Map.of("error", ex.getMessage()));
+    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(Map.of("error", ex.getMessage()));
     }
 }

@@ -65,67 +65,67 @@ public class ListModifConsultLeaveDto {
      * @param status    : Statut de la demande
      */
     public ListModifConsultLeaveDto(LocalDate startDate, LocalDate endDate, String type, String reason, Integer userId, String status) {
-	this.startDate = startDate;
-	this.endDate = endDate;
-	this.type = type;
-	this.reason = reason;
-	this.status = status;
-	this.userId = userId;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.type = type;
+		this.reason = reason;
+		this.status = status;
+		this.userId = userId;
     }
 
     // **** Getter et setter
 
     public LocalDate getStartDate() {
-	return startDate;
+    	return startDate;
     }
 
     public void setStartDate(LocalDate startDate) {
-	this.startDate = startDate;
+    	this.startDate = startDate;
     }
 
     public LocalDate getEndDate() {
-	return endDate;
+    	return endDate;
     }
 
     public void setEndDate(LocalDate endDate) {
-	this.endDate = endDate;
+    	this.endDate = endDate;
     }
 
     public String getType() {
-	return type;
+    	return type;
     }
 
     public void setType(String type) {
-	this.type = type;
+    	this.type = type;
     }
 
     public String getReason() {
-	return reason;
+    	return reason;
     }
 
     public void setReason(String reason) {
-	this.reason = reason;
+    	this.reason = reason;
     }
 
     public Integer getUserId() {
-	return userId;
+    	return userId;
     }
 
     public void setUserId(Integer userId) {
-	this.userId = userId;
+    	this.userId = userId;
     }
 
     /**
      * @return the status
      */
     public String getStatus() {
-	return status;
+    	return status;
     }
 
     /**
      * @param status the status to set
      */
     public void setStatus(String status) {
-	this.status = status;
+    	this.status = status;
     }
 }
