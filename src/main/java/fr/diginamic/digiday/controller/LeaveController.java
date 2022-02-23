@@ -37,7 +37,7 @@ public class LeaveController {
 	this.leaveService = leaveService;
 	this.modelMapper = modelMapper;
     }
-
+    
     @GetMapping("to-validate")
     @ResponseBody
     public List<LeaveDto> getToValidateByDepartment(@RequestParam Integer departmentId) {
@@ -55,6 +55,11 @@ public class LeaveController {
     @ResponseBody
     public LeaveDto rejectLeave(@RequestBody Map<String, Integer> leaveId) {
 	return modelMapper.map(leaveService.rejectLeave(leaveId.get("leaveId")), LeaveDto.class);
+    }
+    
+    @GetMapping(path = "/user/{id}")
+    public ResponseEntity<?> getLeavesForUser(@RequestBody @Validated @PathVariable Integer id) {
+    return ResponseEntity.ok(leaveService.getLeavesForUser(id).stream().map(leave -> modelMapper.map(leave, LeaveDto.class)));
     }
 
     @PostMapping

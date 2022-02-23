@@ -26,6 +26,7 @@ import fr.diginamic.digiday.repositories.UserRepository;
  * Classe service de gestion des demandes de congés
  * </p>
  * 
+ * @author KULR
  * @author LOTT
  * @author LPOU
  * @since 1.0
@@ -116,20 +117,39 @@ public class LeaveService {
 	leaveRepo.delete(leaveToDelete);
 	return leaveToDelete;
     }
-
+    
+    /**
+     * <p>
+     * Liste les demandes de congés d'un salarié
+     * </p>
+     * 
+     * @param idEMployee : identifiant du salarié
+     * @throws DigidayNotFoundException si le salarié n'existe pas en base
+     * @author KULR
+     * @since 1.0
+     */
+    public List<Leave> getLeavesForUser(Integer idEmployee) {
+		 User employee = this.getEmployeeById(idEmployee);
+		 List<Leave> listLeaves = leaveRepo.findByUser(employee);
+		 if(listLeaves.isEmpty()) {
+			 new DigidayNotFoundException("No leaves find for employe with Id " + idEmployee);			 
+		 }
+		 return listLeaves;
+	}
+    
     /**
      * <p>
      * Vérifie que le salarié existe en base de donnée.
      * </p>
      * 
-     * @param idEMployee : identifiant du salarie
+     * @param idEmployee : identifiant du salarie
      * @throws DigidayNotFoundException si le salarié n'existe pas en base
      * @author LPOU & LOTT
      * @see createLeave
      * @since 1.0
      */
-    private User getEmployeeById(Integer idEMployee) throws DigidayNotFoundException {
-	return userRepo.findById(idEMployee).orElseThrow(() -> new DigidayNotFoundException("User with ID " + idEMployee + " does not exist"));
+    private User getEmployeeById(Integer idEmployee) throws DigidayNotFoundException {
+	return userRepo.findById(idEmployee).orElseThrow(() -> new DigidayNotFoundException("User with ID " + idEmployee + " does not exist"));
     }
 
     /**
@@ -265,4 +285,5 @@ public class LeaveService {
 
 	return leaveRepo.save(leave);
     }
+
 }
