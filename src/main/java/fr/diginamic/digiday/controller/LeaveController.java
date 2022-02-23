@@ -57,9 +57,9 @@ public class LeaveController {
     	return modelMapper.map(leaveService.rejectLeave(leaveId.get("leaveId")), LeaveDto.class);
     }
     
-    @GetMapping(path = "/user/{id}")
-    public ResponseEntity<?> getLeavesForUser(@RequestBody @Validated @PathVariable Integer id) {
-    	return ResponseEntity.ok(leaveService.getLeavesForUser(id).stream().map(leave -> modelMapper.map(leave, LeaveDto.class)));
+    @GetMapping
+    public ResponseEntity<?> getLeavesForUser(@RequestParam Integer userId) {
+    	return ResponseEntity.ok(leaveService.getLeavesForUser(userId).stream().map(leave -> modelMapper.map(leave, LeaveDto.class)));
     }
 
     @PostMapping

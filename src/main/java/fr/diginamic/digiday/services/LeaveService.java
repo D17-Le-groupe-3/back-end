@@ -130,9 +130,6 @@ public class LeaveService {
     public List<Leave> getLeavesForUser(Integer idEmployee) {
 		 User employee = this.getEmployeeById(idEmployee);
 		 List<Leave> listLeaves = leaveRepo.findByUser(employee);
-		 if(listLeaves.isEmpty()) {
-			 new DigidayNotFoundException("No leaves find for employe with Id " + idEmployee);			 
-		 }
 		 return listLeaves;
 	}
     
