@@ -1,13 +1,5 @@
 package fr.diginamic.digiday.services;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
 import fr.diginamic.digiday.dto.CreateLeaveDto;
 import fr.diginamic.digiday.entities.Leave;
 import fr.diginamic.digiday.entities.LeaveCounters;
@@ -20,6 +12,12 @@ import fr.diginamic.digiday.exceptions.DigidayWebApiException;
 import fr.diginamic.digiday.repositories.LeaveCountersRepository;
 import fr.diginamic.digiday.repositories.LeaveRepository;
 import fr.diginamic.digiday.repositories.UserRepository;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -57,10 +55,12 @@ public class LeaveService {
      * </ol>
      * 
      * @param createLeaveDto : informations de la demande de congé à créer.
+	 * @return La demande d'absence créée
      * @throws DigidayNotFoundException   si le salarié n'existe pas en base
      * @throws DigidayBadRequestException si une règle de gestion n'est pas
      *                                    respectée
-     * @author LPOU & LOTT
+     * @author LPOU
+	 * @author LOTT
      * @since 1.0
      */
 
@@ -99,6 +99,7 @@ public class LeaveService {
      * </ol>
      * 
      * @param idLeaveToDelete : identifiant d'une demande de congé.
+	 * @return l'absence supprimée
      * @throws DigidayNotFoundException   si le salarié n'existe pas en base
      * @throws DigidayBadRequestException si une règle de gestion n'est pas
      *                                    respectée
@@ -122,7 +123,8 @@ public class LeaveService {
      * Liste les demandes de congés d'un salarié
      * </p>
      * 
-     * @param idEMployee : identifiant du salarié
+     * @param idEmployee : identifiant du salarié
+	 * @return une liste d'absences (potentiellement vide)
      * @throws DigidayNotFoundException si le salarié n'existe pas en base
      * @author KULR
      * @since 1.0
@@ -139,8 +141,10 @@ public class LeaveService {
      * </p>
      * 
      * @param idEmployee : identifiant du salarie
+	 * @return un employé s'il est trouvé
      * @throws DigidayNotFoundException si le salarié n'existe pas en base
-     * @author LPOU & LOTT
+     * @author LPOU
+	 * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
@@ -157,7 +161,7 @@ public class LeaveService {
      * @throws DigidayBadRequestException si la date de début de la demande est
      *                                    antérieure à la date du jour
      * @author LOTT
-     * @see deleteLeave
+     * @see #deleteLeave
      * @since 1.0
      */
     private void checkRulesDateStartAfterCurrentDay(Leave leave) throws DigidayBadRequestException {
@@ -173,7 +177,8 @@ public class LeaveService {
      * @param leave Demande de congé à vérifier
      * @throws DigidayBadRequestException si la date de début de la demande est
      *                                    antérieure à la date de fin
-     * @author LPOU & LOTT
+     * @author LPOU
+	 * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
@@ -195,7 +200,8 @@ public class LeaveService {
      * 
      * @param createLeaveDto (DTO de congés) : Demande de congés à vérifier
      * @throws DigidayBadRequestException si le type de congé n'est pas conforme.
-     * @author LPOU & LOTT
+     * @author LPOU
+	 * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
@@ -218,7 +224,8 @@ public class LeaveService {
      * @throws DigidayBadRequestException si la demande est une demande de congé
      *                                    sans solde et que le motif n'est pas
      *                                    renseigné.
-     * @author LPOU & LOTT
+     * @author LPOU
+	 * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
