@@ -1,9 +1,8 @@
 package fr.diginamic.digiday.dto;
 
-import java.time.LocalDate;
-
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -11,17 +10,18 @@ import javax.validation.constraints.NotNull;
  * création d'une demande de congés. Reprends l'ensemble des informations de
  * l'entité sauf le statut qui est fixé par défault à INITIAL
  * </p>
+ * <p>Liste des attributs</p>
  * <ul>
- * Liste des attibuts
- * </ul>
  * <li>startDate : Date de début de congé</li>
  * <li>endDate : Date de fin de congé</li>
  * <li>type : Type de congé (PAID_LEAVE, UNPAID_LEAVE,RTT)</li>
  * <li>motif : Motif des congés obligatoire pour une demande de congés sans
  * solde. Facultatif dans les autres cas</li>
  * <li>userId : identifiant de l'utilisateur</li>
- * 
- * @author LPOU & LOTT
+ * </ul>
+ *
+ * @author LPOU
+ * @author LOTT
  * @since 1.0
  */
 public class CreateLeaveDto {

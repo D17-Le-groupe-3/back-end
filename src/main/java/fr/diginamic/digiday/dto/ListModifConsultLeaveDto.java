@@ -1,18 +1,16 @@
 package fr.diginamic.digiday.dto;
 
-import java.time.LocalDate;
-
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 /**
  * <p>
  * DTO permetant l'échange d'informations avec le front dans le cadre de
  * consultation ou modification de demande de congés
  * </p>
+ * <p>Liste des attributs</p>
  * <ul>
- * Liste des attibuts
- * </ul>
  * <li>startDate : Date de début de congé</li>
  * <li>endDate : Date de fin de congé</li>
  * <li>type : Type de congé (PAID_LEAVE, UNPAID_LEAVE,RTT)</li>
@@ -21,6 +19,7 @@ import javax.validation.constraints.NotNull;
  * <li>userId : identifiant de l'utilisateur</li>
  * <li>status : Statut de la demande
  * (INITIAL,PENDING_VALIDATION,VALIDATED,REJECTED)</li>
+ * </ul>
  * 
  * @author LOTT
  * @since 1.0
