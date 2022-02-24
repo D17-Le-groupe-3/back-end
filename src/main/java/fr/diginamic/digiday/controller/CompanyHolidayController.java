@@ -33,4 +33,18 @@ public class CompanyHolidayController {
             .map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
             .collect(Collectors.toList());
     }
+    
+    /**
+     * Renvoie une liste de jours fériés et RTT employeurs filtrée par mois et année.
+     *
+     * @param year année servant à filtrer
+     * @return tableau de jours au format JSON
+     */
+    @GetMapping
+    @ResponseBody
+    public List<CompanyHolidayDto> getByMonthAndYear(@RequestParam Integer month, @RequestParam Integer year) {
+        return companyHolidayService.getCompanyHolidaysByYear(year).stream()
+            .map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
+            .collect(Collectors.toList());
+    }
 }
