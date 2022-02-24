@@ -1,41 +1,12 @@
-package fr.diginamic.digiday.entities;
+package fr.diginamic.digiday.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-
-@Entity
-public class LeaveCounters extends BaseEntity {
-	
+public class LeaveCountersDto {
 	private Integer remainingPaidLeaves;
 	private Integer paidLeavesTaken;
 	private Integer remainingRtt;
 	private Integer rttTaken;
 	private Integer unpaidLeavesTaken;
-	
-	@OneToOne
-	private User user;
-
-	public LeaveCounters() {
-		super();
-	}
-
-	public LeaveCounters(Integer remainingPaidLeaves, Integer paidLeavesTaken, Integer remainingRtt, Integer rttTaken, Integer unpaidLeavesTaken, User user) {
-		super();
-		this.remainingPaidLeaves = remainingPaidLeaves;
-		this.paidLeavesTaken = paidLeavesTaken;
-		this.remainingRtt = remainingRtt;
-		this.rttTaken = rttTaken;
-		this.unpaidLeavesTaken = unpaidLeavesTaken;
-		this.user = user;
-	}
-
-	public void increaseRemainingPaidLeaves(Integer count) {
-		remainingPaidLeaves += count;
-	}
-
-	public void increaseRemainingRtt(Integer count) {
-		remainingRtt += count;
-	}
+	private UserDto user;
 	
 	public Integer getRemainingPaidLeaves() {
 		return remainingPaidLeaves;
@@ -52,7 +23,6 @@ public class LeaveCounters extends BaseEntity {
 	public void setPaidLeavesTaken(Integer paidLeavesTaken) {
 		this.paidLeavesTaken = paidLeavesTaken;
 	}
-	
 	public Integer getRemainingRtt() {
 		return remainingRtt;
 	}
@@ -60,7 +30,6 @@ public class LeaveCounters extends BaseEntity {
 	public void setRemainingRtt(Integer remainingRtt) {
 		this.remainingRtt = remainingRtt;
 	}
-	
 	public Integer getRttTaken() {
 		return rttTaken;
 	}
@@ -76,12 +45,12 @@ public class LeaveCounters extends BaseEntity {
 	public void setUnpaidLeavesTaken(Integer unpaidLeavesTaken) {
 		this.unpaidLeavesTaken = unpaidLeavesTaken;
 	}
-
-	public User getUser() {
+	
+	public UserDto getUser() {
 		return user;
 	}
-
-	public void setUser(User user) {
+	
+	public void setUser(UserDto user) {
 		this.user = user;
 	}
 }
