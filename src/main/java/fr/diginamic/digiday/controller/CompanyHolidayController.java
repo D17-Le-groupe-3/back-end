@@ -27,7 +27,6 @@ public class CompanyHolidayController {
      * @return tableau de jours au format JSON
      */
     @GetMapping
-    @ResponseBody
     public List<CompanyHolidayDto> getByYear(@RequestParam Integer year) {
         return companyHolidayService.getCompanyHolidaysByYear(year).stream()
             .map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
@@ -41,7 +40,6 @@ public class CompanyHolidayController {
      * @return tableau de jours au format JSON
      */
     @GetMapping
-    @ResponseBody
     public List<CompanyHolidayDto> getByMonthAndYear(@RequestParam Integer month, @RequestParam Integer year) {
         return companyHolidayService.getCompanyHolidaysByYear(year).stream()
             .map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
