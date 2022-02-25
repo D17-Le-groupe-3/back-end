@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 21 fév. 2022 à 16:51
--- Version du serveur : 10.4.22-MariaDB
--- Version de PHP : 8.1.2
+-- Généré le : jeu. 24 fév. 2022 à 16:14
+-- Version du serveur : 10.4.21-MariaDB
+-- Version de PHP : 7.1.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -72,7 +72,7 @@ INSERT INTO `company_holiday` (`id`, `comment`, `date`, `status`, `type`, `compa
 (10, 'Armistice 1918', '2022-11-11', NULL, 'PUBLIC_HOLIDAY', 1),
 (11, 'Jour de Noël', '2022-12-25', NULL, 'PUBLIC_HOLIDAY', 1),
 (12, '', '2022-08-16', 'VALIDATED', 'COMPANY_RTT', 1),
-(13, 'Pont de la Toussaint', '2022-10-31', 'COMPANY_RTT', 'INITIAL', 1);
+(13, 'Pont de la Toussaint', '2022-10-31', 'INITIAL', 'COMPANY_RTT', 1);
 
 -- --------------------------------------------------------
 
@@ -139,7 +139,13 @@ INSERT INTO `leave_` (`id`, `end_date`, `reason`, `start_date`, `status`, `type`
 (20, '2022-04-01', '', '2022-03-21', 'VALIDATED', 'PAID_LEAVE', 9),
 (21, '2022-04-22', 'Attention au jour férié au milieu !', '2022-04-11', 'INITIAL', 'PAID_LEAVE', 10),
 (22, '2022-04-22', 'Attention au jour férié au milieu !', '2022-04-11', 'VALIDATED', 'PAID_LEAVE', 11),
-(23, '2022-04-22', 'Attention au jour férié au milieu !', '2022-04-11', 'VALIDATED', 'PAID_LEAVE', 12);
+(23, '2022-04-22', 'Attention au jour férié au milieu !', '2022-04-11', 'VALIDATED', 'PAID_LEAVE', 12),
+(24, '2022-04-19', 'Test unitaire suppression date future', '2022-04-04', 'VALIDATED', 'PAID_LEAVE', 12),
+(25, '2022-04-19', 'Test unitaire suppression - status = PENDING_VALIDATION', '2022-04-04', 'PENDING_VALIDATION', 'PAID_LEAVE', 12),
+(26, '2022-04-19', 'Test unitaire suppression - suppression ok', '2022-04-04', 'VALIDATED', 'PAID_LEAVE', 12),
+(27, '2022-04-19', 'Test unitaire supression - date début = date du jour', '2022-02-22', 'VALIDATED', 'PAID_LEAVE', 12),
+(28, '2022-04-19', 'Test unitaire supression - status = initial', '2022-02-22', 'INITIAL', 'PAID_LEAVE', 12),
+(29, '2022-04-19', 'Test unitaire supression - status = initial', '2022-02-22', 'REJECTED', 'PAID_LEAVE', 12);
 
 -- --------------------------------------------------------
 
@@ -153,26 +159,27 @@ CREATE TABLE `leave_counters` (
   `remaining_paid_leaves` int(11) DEFAULT NULL,
   `remaining_rtt` int(11) DEFAULT NULL,
   `rtt_taken` int(11) DEFAULT NULL,
-  `unpaid_leaves_taken` int(11) DEFAULT NULL
+  `unpaid_leaves_taken` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `leave_counters`
 --
 
-INSERT INTO `leave_counters` (`id`, `paid_leaves_taken`, `remaining_paid_leaves`, `remaining_rtt`, `rtt_taken`, `unpaid_leaves_taken`) VALUES
-(1, 0, 25, 6, 0, 0),
-(2, 10, 15, 6, 0, 0),
-(3, 0, 25, 1, 5, 5),
-(4, 0, 25, 6, 0, 0),
-(5, 15, 10, 6, 0, 5),
-(6, 10, 15, 1, 5, 0),
-(7, 10, 15, 6, 0, 0),
-(8, 10, 15, 6, 0, 0),
-(9, 10, 15, 6, 0, 0),
-(10, 0, 25, 6, 0, 0),
-(11, 9, 16, 6, 0, 0),
-(12, 9, 16, 6, 0, 0);
+INSERT INTO `leave_counters` (`id`, `paid_leaves_taken`, `remaining_paid_leaves`, `remaining_rtt`, `rtt_taken`, `unpaid_leaves_taken`, `user_id`) VALUES
+(1, 0, 25, 6, 0, 0, 1),
+(2, 10, 15, 6, 0, 0, 2),
+(3, 0, 25, 1, 5, 5, 3),
+(4, 0, 25, 6, 0, 0, 4),
+(5, 15, 10, 6, 0, 5, 5),
+(6, 10, 15, 1, 5, 0, 6),
+(7, 10, 15, 6, 0, 0, 7),
+(8, 10, 15, 6, 0, 0, 8),
+(9, 10, 15, 6, 0, 0, 9),
+(10, 0, 25, 6, 0, 0, 10),
+(11, 9, 16, 6, 0, 0, 11),
+(12, 9, 16, 6, 0, 0, 12);
 
 -- --------------------------------------------------------
 
@@ -245,7 +252,8 @@ ALTER TABLE `leave_`
 -- Index pour la table `leave_counters`
 --
 ALTER TABLE `leave_counters`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKf2n6iy8yrb1r9opjgxsb0sn2q` (`user_id`);
 
 --
 -- Index pour la table `user`
@@ -282,7 +290,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT pour la table `leave_`
 --
 ALTER TABLE `leave_`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT pour la table `leave_counters`
@@ -317,6 +325,12 @@ ALTER TABLE `department`
 --
 ALTER TABLE `leave_`
   ADD CONSTRAINT `FKrcp8av9qvasxhkbblj105dqo6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `leave_counters`
+--
+ALTER TABLE `leave_counters`
+  ADD CONSTRAINT `FKf2n6iy8yrb1r9opjgxsb0sn2q` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Contraintes pour la table `user`

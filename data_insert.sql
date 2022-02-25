@@ -27,7 +27,7 @@ INSERT INTO company_holiday (id, comment, date, type, company_id) VALUES
 -- RTT
 INSERT INTO company_holiday (id, comment, date, type, status, company_id) VALUES
 (12, '', '2022-08-16', 'COMPANY_RTT', 'VALIDATED', 1),
-(13, 'Pont de la Toussaint', '2022-10-31', 'INITIAL', 'COMPANY_RTT', 1);
+(13, 'Pont de la Toussaint', '2022-10-31', 'COMPANY_RTT', 'INITIAL', 1);
 
 -- --------------------------------------------------------
 
@@ -88,6 +88,9 @@ INSERT INTO user (id, email, first_name, last_name, password, role, department_i
 (10, 'gaelle.sachet@yopmail.com', 'Gaëlle', 'Sachet', '123456', 'MANAGER', 4, 10, 1),
 (11, 'marc.jarre@yopmail.com', 'Marc', 'Jarre', '123456', 'EMPLOYEE', 4, 11, 10),
 (12, 'simone.muret@yopmail.com', 'Simone', 'Muret', '123456', 'EMPLOYEE', 4, 12, 10);
+
+
+UPDATE leave_counters SET user_id = id;
 
 -- --------------------------------------------------------
 
