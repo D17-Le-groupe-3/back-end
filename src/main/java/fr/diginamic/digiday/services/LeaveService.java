@@ -131,8 +131,7 @@ public class LeaveService {
      */
     public List<Leave> getLeavesForUser(Integer idEmployee) {
 		 User employee = this.getEmployeeById(idEmployee);
-		 List<Leave> listLeaves = leaveRepo.findByUser(employee);
-		 return listLeaves;
+		return leaveRepo.findByUser(employee);
 	}
     
     /**
