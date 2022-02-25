@@ -1,5 +1,25 @@
 package fr.diginamic.digiday.dto;
 
+/**
+ * <p>
+ * DTO permetant l'échange d'informations avec le front dans le cadre de
+ * consultation du solde des compteurs de congés
+ * </p>
+ * <p>Liste des attributs</p>
+ * <ul>
+ * <li>remainingPaidLeaves: congés payés restant </li>
+ * <li>paidLeavesTaken: congés payé déjà utilisés</li>
+ * <li>remainingRtt: RTT restant</li>
+ * <li>rttTaken: RTT déjà utilisés</li>
+ * <li>unpaidLeavesTaken: congés sans soldes déjà utilisé</li>
+ * <li>user: Dto du user </li>
+ *   
+ * </ul>
+ * 
+ * @author LOTT
+ * @since 1.0
+ */
+
 public class LeaveCountersDto {
 	private Integer remainingPaidLeaves;
 	private Integer paidLeavesTaken;
