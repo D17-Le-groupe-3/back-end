@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,12 +30,12 @@ public class CompanyHolidayController {
      * @return tableau de jours au format JSON
      */
     @GetMapping
-    public List<CompanyHolidayDto> getByMonthAndYear(@RequestParam Integer month, @RequestParam Integer year) {
+    public List<CompanyHolidayDto> getByMonthAndYear(@RequestParam Optional<Integer> month, @RequestParam Integer year) {
     	List<CompanyHoliday> results;
-    	if (month == null)
+    	if (month.isEmpty())
     		results = companyHolidayService.getCompanyHolidaysByYear(year);
     	else
-    		results = companyHolidayService.getCompanyHolidaysByMonthAndYear(month, year);
+    		results = companyHolidayService.getCompanyHolidaysByMonthAndYear(month.get(), year);
         return results.stream().map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
             .collect(Collectors.toList());
     }
