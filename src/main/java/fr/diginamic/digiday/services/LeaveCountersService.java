@@ -33,9 +33,9 @@ public class LeaveCountersService {
 	 * @param idEmployee
 	 * @return les compteurs de l'employé
 	 */
-	public Optional<LeaveCounters> getLeaveCountersByEmployee(Integer idEmployee) {
+	public LeaveCounters getLeaveCountersByEmployee(Integer idEmployee) {
 		User employee = this.getEmployeeById(idEmployee);
-		Optional<LeaveCounters> optionalLeaveCounters = leaveCountersRepository.findByUser(employee);
+		LeaveCounters optionalLeaveCounters = leaveCountersRepository.findByUser(employee).orElseThrow(() -> new DigidayNotFoundException("Leaves counter for this id doesn't exist"));
 		return optionalLeaveCounters;
 	}
 	

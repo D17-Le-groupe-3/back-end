@@ -11,7 +11,7 @@ import fr.diginamic.digiday.dto.LeaveCountersDto;
 import fr.diginamic.digiday.services.LeaveCountersService;
 
 @RestController
-@RequestMapping("leave-counters")
+@RequestMapping("leave-counter")
 public class LeaveCountersController {
 	
 	private final LeaveCountersService leaveCountersService;
@@ -24,6 +24,7 @@ public class LeaveCountersController {
 
 	@GetMapping
 	public ResponseEntity<?> getLeaveCounterByEmployee(@RequestParam Integer userId){
-		return ResponseEntity.ok(leaveCountersService.getLeaveCountersByEmployee(userId).stream().map(leaveCounter -> modelMapper.map(leaveCounter, LeaveCountersDto.class)));
+		
+		return ResponseEntity.ok(modelMapper.map(leaveCountersService.getLeaveCountersByEmployee(userId), LeaveCountersDto.class));
 	}
 }
