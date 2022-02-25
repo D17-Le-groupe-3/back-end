@@ -1,6 +1,7 @@
 package fr.diginamic.digiday.controller;
 
 import fr.diginamic.digiday.dto.CompanyHolidayDto;
+import fr.diginamic.digiday.entities.CompanyHoliday;
 import fr.diginamic.digiday.services.CompanyHolidayService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -21,28 +22,20 @@ public class CompanyHolidayController {
     }
 
     /**
-     * Renvoie une liste de jours fériés et RTT employeurs filtrée par an.
-     *
-     * @param year année servant à filtrer
-     * @return tableau de jours au format JSON
-     */
-    @GetMapping
-    public List<CompanyHolidayDto> getByYear(@RequestParam Integer year) {
-        return companyHolidayService.getCompanyHolidaysByYear(year).stream()
-            .map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
-            .collect(Collectors.toList());
-    }
-    
-    /**
      * Renvoie une liste de jours fériés et RTT employeurs filtrée par mois et année.
      *
+     * @param month (optionnel) mois servant à filtrer
      * @param year année servant à filtrer
      * @return tableau de jours au format JSON
      */
     @GetMapping
     public List<CompanyHolidayDto> getByMonthAndYear(@RequestParam Integer month, @RequestParam Integer year) {
-        return companyHolidayService.getCompanyHolidaysByYear(year).stream()
-            .map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
+    	List<CompanyHoliday> results;
+    	if (month == null)
+    		results = companyHolidayService.getCompanyHolidaysByYear(year);
+    	else
+    		results = companyHolidayService.getCompanyHolidaysByMonthAndYear(month, year);
+        return results.stream().map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
             .collect(Collectors.toList());
     }
 }
