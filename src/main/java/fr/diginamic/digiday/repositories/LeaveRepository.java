@@ -21,5 +21,6 @@ public interface LeaveRepository extends JpaRepository<Leave, Integer> {
      */
     @Query("select l from Leave l where l.user = ?1")
     List<Leave> findByUser(User user);
-    
+
+    List<Leave> findByStatusOrderByStartDateAsc(LeaveStatus status);
 }

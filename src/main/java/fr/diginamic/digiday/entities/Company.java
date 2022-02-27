@@ -1,9 +1,8 @@
 package fr.diginamic.digiday.entities;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Company extends BaseEntity {
@@ -25,6 +24,14 @@ public class Company extends BaseEntity {
 		super();
 		this.remainingRtt = remainingRtt;
 		this.rttTaken = rttTaken;
+	}
+
+	public void decreaseRemainingRtt(Integer count) {
+		remainingRtt -= count;
+	}
+
+	public void increaseRttTaken(Integer count) {
+		rttTaken += count;
 	}
 
 	public Integer getRemainingRtt() {
