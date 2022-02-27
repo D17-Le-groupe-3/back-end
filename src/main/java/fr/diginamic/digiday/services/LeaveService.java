@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 
@@ -179,7 +180,27 @@ public class LeaveService {
      */
     public List<Leave> getLeavesForUser(Integer idEmployee) {
 		 User employee = this.getEmployeeById(idEmployee);
-		 List<Leave> listLeaves = leaveRepo.findByUser(employee);
+		return leaveRepo.findByUser(employee);
+	}
+    
+    /**
+     * <p>
+     * Liste les demandes de congés d'un salarié pour un mois et une année donnés
+     * </p>
+     * 
+     * @param idEmployee : identifiant du salarié
+     * @param month : mois
+     * @param year : année
+	 * @return une liste d'absences (potentiellement vide)
+     * @throws DigidayNotFoundException si le salarié n'existe pas en base
+     * @author KULR
+     * @since 1.0
+     */
+    public List<Leave> getLeavesForUserByMonthAndYear(Integer idEmployee, Integer month, Integer year) {
+		 User employee = this.getEmployeeById(idEmployee);
+		 LocalDate monthStart = LocalDate.parse(String.format("%d-%02d-01", year, month));
+		 LocalDate monthEnd = monthStart.with(TemporalAdjusters.lastDayOfMonth());
+		 List<Leave> listLeaves = leaveRepo.findByUserAndTimeInterval(employee, monthStart, monthEnd);
 		 return listLeaves;
 	}
     
