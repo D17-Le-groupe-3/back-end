@@ -54,6 +54,8 @@ public class LeaveService {
      * @param idLeave : identifiant de la demande de congé
      * @return Optional Leave : Demande de congé si celle ci est trouvée
      * @throws DigidayNotFoundException si la demande de congé n'a pas été trouvée.
+     * @author LOTT
+     * @since 1.0
      */
     @Transactional
     public Leave searchLeaveById(Integer idLeave) throws DigidayWebApiException {
