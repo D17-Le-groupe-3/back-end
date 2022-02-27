@@ -1,5 +1,14 @@
 package fr.diginamic.digiday.services;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import fr.diginamic.digiday.dto.CreateLeaveDto;
 import fr.diginamic.digiday.entities.Leave;
 import fr.diginamic.digiday.entities.LeaveCounters;
@@ -12,13 +21,6 @@ import fr.diginamic.digiday.exceptions.DigidayWebApiException;
 import fr.diginamic.digiday.repositories.LeaveCountersRepository;
 import fr.diginamic.digiday.repositories.LeaveRepository;
 import fr.diginamic.digiday.repositories.UserRepository;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -38,9 +40,24 @@ public class LeaveService {
     private final LeaveCountersRepository leaveCountersRepo;
 
     public LeaveService(LeaveRepository leaveRepo, UserRepository userRepo, LeaveCountersRepository leaveCountersRepo) {
-		this.leaveRepo = leaveRepo;
-		this.userRepo = userRepo;
-		this.leaveCountersRepo = leaveCountersRepo;
+	this.leaveRepo = leaveRepo;
+	this.userRepo = userRepo;
+	this.leaveCountersRepo = leaveCountersRepo;
+    }
+
+    /**
+     * <p>
+     * Methode permetant de récupérer une demande de congé à partir de son
+     * identifiant
+     * </p>
+     * 
+     * @param idLeave : identifiant de la demande de congé
+     * @return Optional Leave : Demande de congé si celle ci est trouvée
+     * @throws DigidayNotFoundException si la demande de congé n'a pas été trouvée.
+     */
+    @Transactional
+    public Leave searchLeaveById(Integer idLeave) throws DigidayWebApiException {
+	return this.leaveRepo.findById(idLeave).orElseThrow(() -> new DigidayNotFoundException("Leave whith ID" + idLeave + " does not exist"));
     }
 
     /**
@@ -56,34 +73,34 @@ public class LeaveService {
      * </ol>
      * 
      * @param createLeaveDto : informations de la demande de congé à créer.
-	 * @return La demande d'absence créée
+     * @return La demande d'absence créée
      * @throws DigidayNotFoundException   si le salarié n'existe pas en base
      * @throws DigidayBadRequestException si une règle de gestion n'est pas
      *                                    respectée
      * @author LPOU
-	 * @author LOTT
+     * @author LOTT
      * @since 1.0
      */
 
     @Transactional
     public Leave createLeave(CreateLeaveDto createLeaveDto) throws DigidayWebApiException {
-		Leave leave = new Leave();
-		// Gestion des dates
-		leave.setStartDate(createLeaveDto.getStartDate());
-		leave.setEndDate(createLeaveDto.getEndDate());
-		checkRulesDateStartBeforeDateEnd(leave);
-		// Gestion du type
-		checkRulesMatchPrefefinedType(createLeaveDto);
-		leave.setType(LeaveType.valueOf(createLeaveDto.getType()));
-		// Gestion du motif
-		leave.setReason(createLeaveDto.getReason());
-		checkRulesReasonFilledForUnpaidLeave(leave);
-		// Gestion du salarie
-		User user = getEmployeeById(createLeaveDto.getUserId());
-		leave.setUser(user);
-		leave.setStatus(LeaveStatus.INITIAL);
-	
-		return leaveRepo.save(leave);
+	Leave leave = new Leave();
+	// Gestion des dates
+	leave.setStartDate(createLeaveDto.getStartDate());
+	leave.setEndDate(createLeaveDto.getEndDate());
+	checkRulesDateStartBeforeDateEnd(leave);
+	// Gestion du type
+	checkRulesMatchPrefefinedType(createLeaveDto);
+	leave.setType(LeaveType.valueOf(createLeaveDto.getType()));
+	// Gestion du motif
+	leave.setReason(createLeaveDto.getReason());
+	checkRulesReasonFilledForUnpaidLeave(leave);
+	// Gestion du salarie
+	User user = getEmployeeById(createLeaveDto.getUserId());
+	leave.setUser(user);
+	leave.setStatus(LeaveStatus.INITIAL);
+
+	return leaveRepo.save(leave);
     }
 
     /**
@@ -100,7 +117,7 @@ public class LeaveService {
      * </ol>
      * 
      * @param idLeaveToDelete : identifiant d'une demande de congé.
-	 * @return l'absence supprimée
+     * @return l'absence supprimée
      * @throws DigidayNotFoundException   si le salarié n'existe pas en base
      * @throws DigidayBadRequestException si une règle de gestion n'est pas
      *                                    respectée
@@ -110,68 +127,68 @@ public class LeaveService {
 
     @Transactional
     public Leave deleteLeave(Integer idLeaveToDelete) throws DigidayNotFoundException {
-		Leave leaveToDelete;
-		leaveToDelete = this.leaveRepo.findById(idLeaveToDelete)
-			.orElseThrow(() -> new DigidayNotFoundException("Leave whith ID" + idLeaveToDelete + " does not exist"));
-		checkRulesDateStartAfterCurrentDay(leaveToDelete);
-		checkRulesStatusBeforeDelete(leaveToDelete);
-		leaveRepo.delete(leaveToDelete);
-		return leaveToDelete;
+	Leave leaveToDelete;
+	leaveToDelete = this.leaveRepo.findById(idLeaveToDelete)
+		.orElseThrow(() -> new DigidayNotFoundException("Leave whith ID" + idLeaveToDelete + " does not exist"));
+	checkRulesDateStartAfterCurrentDay(leaveToDelete);
+	checkRulesStatusBeforeDelete(leaveToDelete);
+	leaveRepo.delete(leaveToDelete);
+	return leaveToDelete;
     }
-    
+
     /**
      * <p>
      * Liste les demandes de congés d'un salarié
      * </p>
      * 
      * @param idEmployee : identifiant du salarié
-	 * @return une liste d'absences (potentiellement vide)
+     * @return une liste d'absences (potentiellement vide)
      * @throws DigidayNotFoundException si le salarié n'existe pas en base
      * @author KULR
      * @since 1.0
      */
     public List<Leave> getLeavesForUser(Integer idEmployee) {
-		 User employee = this.getEmployeeById(idEmployee);
-		 List<Leave> listLeaves = leaveRepo.findByUser(employee);
-		 return listLeaves;
-	}
-    
+	User employee = this.getEmployeeById(idEmployee);
+	List<Leave> listLeaves = leaveRepo.findByUser(employee);
+	return listLeaves;
+    }
+
     /**
      * <p>
      * Liste les demandes de congés d'un salarié pour un mois et une année donnés
      * </p>
      * 
      * @param idEmployee : identifiant du salarié
-     * @param month : mois
-     * @param year : année
-	 * @return une liste d'absences (potentiellement vide)
+     * @param month      : mois
+     * @param year       : année
+     * @return une liste d'absences (potentiellement vide)
      * @throws DigidayNotFoundException si le salarié n'existe pas en base
      * @author KULR
      * @since 1.0
      */
     public List<Leave> getLeavesForUserByMonthAndYear(Integer idEmployee, Integer month, Integer year) {
-		 User employee = this.getEmployeeById(idEmployee);
-		 LocalDate monthStart = LocalDate.parse(String.format("%d-%02d-01", year, month));
-		 LocalDate monthEnd = monthStart.with(TemporalAdjusters.lastDayOfMonth());
-		 List<Leave> listLeaves = leaveRepo.findByUserAndTimeInterval(employee, monthStart, monthEnd);
-		 return listLeaves;
-	}
-    
+	User employee = this.getEmployeeById(idEmployee);
+	LocalDate monthStart = LocalDate.parse(String.format("%d-%02d-01", year, month));
+	LocalDate monthEnd = monthStart.with(TemporalAdjusters.lastDayOfMonth());
+	List<Leave> listLeaves = leaveRepo.findByUserAndTimeInterval(employee, monthStart, monthEnd);
+	return listLeaves;
+    }
+
     /**
      * <p>
      * Vérifie que le salarié existe en base de donnée.
      * </p>
      * 
      * @param idEmployee : identifiant du salarie
-	 * @return un employé s'il est trouvé
+     * @return un employé s'il est trouvé
      * @throws DigidayNotFoundException si le salarié n'existe pas en base
      * @author LPOU
-	 * @author LOTT
+     * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
     private User getEmployeeById(Integer idEmployee) throws DigidayNotFoundException {
-    	return userRepo.findById(idEmployee).orElseThrow(() -> new DigidayNotFoundException("User with ID " + idEmployee + " does not exist"));
+	return userRepo.findById(idEmployee).orElseThrow(() -> new DigidayNotFoundException("User with ID " + idEmployee + " does not exist"));
     }
 
     /**
@@ -187,8 +204,8 @@ public class LeaveService {
      * @since 1.0
      */
     private void checkRulesDateStartAfterCurrentDay(Leave leave) throws DigidayBadRequestException {
-		if (leave.getStartDate().isBefore(LocalDate.now()))
-		    throw new DigidayBadRequestException("Start date begin before current date - You are not allowed to delete this leave");
+	if (leave.getStartDate().isBefore(LocalDate.now()))
+	    throw new DigidayBadRequestException("Start date begin before current date - You are not allowed to delete this leave");
     }
 
     /**
@@ -200,13 +217,13 @@ public class LeaveService {
      * @throws DigidayBadRequestException si la date de début de la demande est
      *                                    antérieure à la date de fin
      * @author LPOU
-	 * @author LOTT
+     * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
     private void checkRulesDateStartBeforeDateEnd(Leave leave) throws DigidayBadRequestException {
-		if (leave.getStartDate().compareTo(leave.getEndDate()) > 0)
-		    throw new DigidayBadRequestException("Start date is after end date");
+	if (leave.getStartDate().compareTo(leave.getEndDate()) > 0)
+	    throw new DigidayBadRequestException("Start date is after end date");
     }
 
     /**
@@ -223,17 +240,17 @@ public class LeaveService {
      * @param createLeaveDto (DTO de congés) : Demande de congés à vérifier
      * @throws DigidayBadRequestException si le type de congé n'est pas conforme.
      * @author LPOU
-	 * @author LOTT
+     * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
     private void checkRulesMatchPrefefinedType(CreateLeaveDto createLeaveDto) throws DigidayBadRequestException {
-		try {
-		    LeaveType.valueOf(createLeaveDto.getType());
-		} catch (Exception ex) {
-		    throw new DigidayBadRequestException("Leave type " + createLeaveDto.getType() + " does not match an existing one. Expected types are : "
-			    + LeaveType.PAID_LEAVE.toString() + ", " + LeaveType.UNPAID_LEAVE.toString() + " or " + LeaveType.RTT.toString());
-		}
+	try {
+	    LeaveType.valueOf(createLeaveDto.getType());
+	} catch (Exception ex) {
+	    throw new DigidayBadRequestException("Leave type " + createLeaveDto.getType() + " does not match an existing one. Expected types are : "
+		    + LeaveType.PAID_LEAVE.toString() + ", " + LeaveType.UNPAID_LEAVE.toString() + " or " + LeaveType.RTT.toString());
+	}
     }
 
     /**
@@ -247,13 +264,13 @@ public class LeaveService {
      *                                    sans solde et que le motif n'est pas
      *                                    renseigné.
      * @author LPOU
-	 * @author LOTT
+     * @author LOTT
      * @see #createLeave
      * @since 1.0
      */
     private void checkRulesReasonFilledForUnpaidLeave(Leave leave) {
-		if (leave.getType().equals(LeaveType.UNPAID_LEAVE) && leave.getReason().isEmpty())
-		    throw new DigidayBadRequestException("Reason is required for leaves of type UNPAID_LEAVE");
+	if (leave.getType().equals(LeaveType.UNPAID_LEAVE) && leave.getReason().isEmpty())
+	    throw new DigidayBadRequestException("Reason is required for leaves of type UNPAID_LEAVE");
     }
 
     /**
@@ -270,44 +287,44 @@ public class LeaveService {
      * @since 1.0
      */
     private void checkRulesStatusBeforeDelete(Leave leave) throws DigidayBadRequestException {
-		if (leave.getStatus().equals(LeaveStatus.PENDING_VALIDATION)) {
-		    throw new DigidayBadRequestException("You are not allowed to delete a leave whith the PENDING_VALIDATION status");
-		}
+	if (leave.getStatus().equals(LeaveStatus.PENDING_VALIDATION)) {
+	    throw new DigidayBadRequestException("You are not allowed to delete a leave whith the PENDING_VALIDATION status");
+	}
     }
 
     public List<Leave> getLeavesToValidateByDepartment(Integer departmentId) {
-		List<Leave> leaves = leaveRepo.findByUserDepartmentIdAndStatusIn(departmentId, List.of(LeaveStatus.PENDING_VALIDATION, LeaveStatus.REJECTED));
-		if (leaves.isEmpty())
-		    throw new DigidayNotFoundException("No leaves found");
-		return leaves;
+	List<Leave> leaves = leaveRepo.findByUserDepartmentIdAndStatusIn(departmentId, List.of(LeaveStatus.PENDING_VALIDATION, LeaveStatus.REJECTED));
+	if (leaves.isEmpty())
+	    throw new DigidayNotFoundException("No leaves found");
+	return leaves;
     }
 
     private Leave findLeaveAndSetStatus(Integer leaveId, LeaveStatus status) {
-		Optional<Leave> optionalLeave = leaveRepo.findByIdAndStatus(leaveId, LeaveStatus.PENDING_VALIDATION);
-		if (optionalLeave.isEmpty())
-		    throw new DigidayNotFoundException("No leave with the id " + leaveId + "and pending validation was found");
-	
-		Leave leave = optionalLeave.get();
-		leave.setStatus(status);
-		return leave;
+	Optional<Leave> optionalLeave = leaveRepo.findByIdAndStatus(leaveId, LeaveStatus.PENDING_VALIDATION);
+	if (optionalLeave.isEmpty())
+	    throw new DigidayNotFoundException("No leave with the id " + leaveId + "and pending validation was found");
+
+	Leave leave = optionalLeave.get();
+	leave.setStatus(status);
+	return leave;
     }
 
     public Leave validateLeave(Integer leaveId) {
-		Leave leave = findLeaveAndSetStatus(leaveId, LeaveStatus.VALIDATED);
-		return leaveRepo.save(leave);
+	Leave leave = findLeaveAndSetStatus(leaveId, LeaveStatus.VALIDATED);
+	return leaveRepo.save(leave);
     }
 
     public Leave rejectLeave(Integer leaveId) {
-		Leave leave = findLeaveAndSetStatus(leaveId, LeaveStatus.REJECTED);
-	
-		LeaveCounters leaveCounters = leave.getUser().getLeaveCounters();
-		if (leave.getType() == LeaveType.PAID_LEAVE)
-		    leaveCounters.increaseRemainingPaidLeaves(leave.getDuration());
-		if (leave.getType() == LeaveType.RTT)
-		    leaveCounters.increaseRemainingRtt(leave.getDuration());
-		leaveCountersRepo.save(leaveCounters);
-	
-		return leaveRepo.save(leave);
+	Leave leave = findLeaveAndSetStatus(leaveId, LeaveStatus.REJECTED);
+
+	LeaveCounters leaveCounters = leave.getUser().getLeaveCounters();
+	if (leave.getType() == LeaveType.PAID_LEAVE)
+	    leaveCounters.increaseRemainingPaidLeaves(leave.getDuration());
+	if (leave.getType() == LeaveType.RTT)
+	    leaveCounters.increaseRemainingRtt(leave.getDuration());
+	leaveCountersRepo.save(leaveCounters);
+
+	return leaveRepo.save(leave);
     }
 
 }
