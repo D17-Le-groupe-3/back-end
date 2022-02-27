@@ -36,7 +36,19 @@ public class CompanyHolidayService {
     public List<CompanyHoliday> getCompanyHolidaysByYear(Integer year) {
         return companyHolidayRepository.findByYear(year);
     }
-
+  
+    /**
+     * Liste les jours fériés et RTT employeurs pour un mois donné d'une année donnée.
+     * Filtre via le champ date de {@link CompanyHoliday}
+     *
+     * @param month mois
+     * @param year année
+     * @return les jours fériés et RTT employeurs correspondants
+     */
+    public List<CompanyHoliday> getCompanyHolidaysByMonthAndYear(Integer month, Integer year) {
+        return companyHolidayRepository.findByMonthAndYear(month, year);
+    }
+    
     /**
      * Supprime un jour férié ou RTT employeur après vérification des règles métier.
      *
