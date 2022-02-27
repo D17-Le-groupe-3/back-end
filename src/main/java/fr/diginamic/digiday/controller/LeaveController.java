@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.diginamic.digiday.dto.CreateLeaveDto;
 import fr.diginamic.digiday.dto.DtoUtils;
 import fr.diginamic.digiday.dto.LeaveDto;
+import fr.diginamic.digiday.dto.ModifyLeaveDto;
 import fr.diginamic.digiday.services.LeaveService;
 
 @RestController
@@ -51,6 +53,11 @@ public class LeaveController {
     @ResponseBody
     public LeaveDto rejectLeave(@RequestBody Map<String, Integer> leaveId) {
 	return modelMapper.map(leaveService.rejectLeave(leaveId.get("leaveId")), LeaveDto.class);
+    }
+    
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> modifyLeave(@PathVariable Integer id, @RequestBody @Validated ModifyLeaveDto modifyLeaveDto) {
+    	return ResponseEntity.ok(modelMapper.map(leaveService.modifyLeave(id, modifyLeaveDto), LeaveDto.class) );
     }
 
     @GetMapping
