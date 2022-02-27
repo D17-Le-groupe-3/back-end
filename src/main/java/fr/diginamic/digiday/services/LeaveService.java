@@ -150,10 +150,10 @@ public class LeaveService {
      * @since 1.0
      */
     public List<Leave> getLeavesForUser(Integer idEmployee) {
-	User employee = this.getEmployeeById(idEmployee);
-	List<Leave> listLeaves = leaveRepo.findByUser(employee);
-	return listLeaves;
-    }
+
+		 User employee = this.getEmployeeById(idEmployee);
+		    return leaveRepo.findByUser(employee);
+	   }
 
     /**
      * <p>
