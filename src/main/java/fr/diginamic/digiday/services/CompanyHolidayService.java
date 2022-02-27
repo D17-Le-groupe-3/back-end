@@ -47,7 +47,7 @@ public class CompanyHolidayService {
     public List<CompanyHoliday> getCompanyHolidaysByYear(Integer year) {
         return companyHolidayRepository.findByYear(year);
     }
-    
+  
     /**
      * Liste les jours fériés et RTT employeurs pour un mois donné d'une année donnée.
      * Filtre via le champ date de {@link CompanyHoliday}
@@ -59,7 +59,6 @@ public class CompanyHolidayService {
     public List<CompanyHoliday> getCompanyHolidaysByMonthAndYear(Integer month, Integer year) {
         return companyHolidayRepository.findByMonthAndYear(month, year);
     }
-    
     
     /**
      * <p>
@@ -124,8 +123,38 @@ public class CompanyHolidayService {
 		}
     }
     
+    /**
+     * <p>
+     * Vérifie que la date renseignée lors d'une création n'est pas un Samedi ou Dimanche
+     * 
+     * @param LocalDate : date à vérifier
+     * @throws DigidayBadRequestException si le jour est un Samedi ou Dimanche.
+     * @author LPOU
+     * @see #createCompanyHoliday
+     * @since 1.0
+     */
     private void checkRulesIsWeekEndDay(LocalDate date) throws DigidayBadRequestException {
     	if ((date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY))
     		throw new DigidayBadRequestException("Company RTT cannot be created on Saturdays or Sundays.");
+    }
+  
+    /**
+     * Supprime un jour férié ou RTT employeur après vérification des règles métier.
+     *
+     * @param companyHolidayId id du jour férié ou RTT employeur à supprimer
+     * @return vrai si la suppression est effectuée
+     */
+    public boolean deleteCompanyHoliday(Integer companyHolidayId) {
+        CompanyHoliday companyHoliday = companyHolidayRepository.findById(companyHolidayId)
+                .orElseThrow(() -> new DigidayNotFoundException("Company holiday  of id " + companyHolidayId + "does not exist"));
+
+        if (companyHoliday.getDate().isBefore(LocalDate.now()))
+            throw new DigidayBadRequestException("Cannot delete company holiday in the past");
+
+        if (companyHoliday.getType().equals(CompanyHolidayType.COMPANY_RTT) && companyHoliday.getStatus().equals(LeaveStatus.VALIDATED))
+            throw new DigidayBadRequestException("Cannot delete validated company holiday");
+
+        companyHolidayRepository.delete(companyHoliday);
+        return true;
     }
 }
