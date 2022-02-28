@@ -7,9 +7,18 @@ public class LeaveDto {
     private String endDate;
     private String type;
     private String status;
+    private String reason;
     private UserDto user;
+   
+    public String getReason() {
+		return reason;
+	}
 
-    public Integer getId() {
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface CompanyHolidayRepository extends JpaRepository<CompanyHoliday, Integer> {
 
@@ -21,4 +22,6 @@ public interface CompanyHolidayRepository extends JpaRepository<CompanyHoliday, 
     Integer findCountBetweenDates(LocalDate startDate, LocalDate endDate);
 
     List<CompanyHoliday> findByTypeAndStatus(CompanyHolidayType companyHolidayType, LeaveStatus status);
+    
+    Optional<CompanyHoliday> findByDate(LocalDate date);
 }
