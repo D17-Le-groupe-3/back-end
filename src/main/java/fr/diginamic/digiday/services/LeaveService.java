@@ -1,28 +1,26 @@
 package fr.diginamic.digiday.services;
 
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
 import fr.diginamic.digiday.dto.CreateLeaveDto;
-import fr.diginamic.digiday.dto.LeaveDto;
 import fr.diginamic.digiday.dto.ModifyLeaveDto;
 import fr.diginamic.digiday.entities.Leave;
 import fr.diginamic.digiday.entities.LeaveCounters;
 import fr.diginamic.digiday.entities.User;
 import fr.diginamic.digiday.enums.LeaveStatus;
 import fr.diginamic.digiday.enums.LeaveType;
+import fr.diginamic.digiday.enums.Role;
 import fr.diginamic.digiday.exceptions.DigidayBadRequestException;
 import fr.diginamic.digiday.exceptions.DigidayNotFoundException;
 import fr.diginamic.digiday.exceptions.DigidayWebApiException;
 import fr.diginamic.digiday.repositories.LeaveCountersRepository;
 import fr.diginamic.digiday.repositories.LeaveRepository;
 import fr.diginamic.digiday.repositories.UserRepository;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -121,7 +119,7 @@ public class LeaveService {
      * <li>Le salarié indiqué doit être présent en base</li>
      * </ol>
      * 
-     * @param modifyLeaveDto : informations de la demande de congé à modifier.
+     * @param leaveModifyDto : informations de la demande de congé à modifier.
 	 * @return La demande d'absence modifiée
      * @throws DigidayNotFoundException  si l'absence n'existe pas en base
      * @author ACLA
@@ -288,7 +286,7 @@ public class LeaveService {
      * <li>RTT - Réduction du temps de travail</li>
      * </ul>
      * 
-     * @param String : Type de la demande de congés à vérifier
+     * @param typeToControl : Type de la demande de congés à vérifier
      * @throws DigidayBadRequestException si le type de congé n'est pas conforme.
      * @author LPOU
      * @author LOTT
@@ -368,7 +366,7 @@ public class LeaveService {
 	}
 
     public List<Leave> getLeavesToValidateByDepartment(Integer departmentId) {
-	List<Leave> leaves = leaveRepo.findByUserDepartmentIdAndStatusIn(departmentId, List.of(LeaveStatus.PENDING_VALIDATION, LeaveStatus.REJECTED));
+	List<Leave> leaves = leaveRepo.findByUserDepartmentIdAndUserRoleNotAndStatusIn(departmentId, Role.MANAGER, List.of(LeaveStatus.PENDING_VALIDATION, LeaveStatus.REJECTED));
 	if (leaves.isEmpty())
 	    throw new DigidayNotFoundException("No leaves found");
 	return leaves;

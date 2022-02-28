@@ -3,6 +3,7 @@ package fr.diginamic.digiday.repositories;
 import fr.diginamic.digiday.entities.Leave;
 import fr.diginamic.digiday.entities.User;
 import fr.diginamic.digiday.enums.LeaveStatus;
+import fr.diginamic.digiday.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LeaveRepository extends JpaRepository<Leave, Integer> {
-    List<Leave> findByUserDepartmentIdAndStatusIn(Integer departmentId, List<LeaveStatus> statusList);
+    List<Leave> findByUserDepartmentIdAndUserRoleNotAndStatusIn(Integer departmentId, Role role, List<LeaveStatus> statusList);
 
     Optional<Leave> findByIdAndStatus(Integer id, LeaveStatus status);
     
