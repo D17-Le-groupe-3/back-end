@@ -1,10 +1,21 @@
 package fr.diginamic.digiday.dto;
 
 public class UserDto {
+	private Integer id;
     private String lastName;
     private String firstName;
 
-    public String getLastName() {
+    
+    
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getLastName() {
         return lastName;
     }
 
