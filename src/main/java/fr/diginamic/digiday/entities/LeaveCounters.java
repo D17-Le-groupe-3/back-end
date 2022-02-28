@@ -36,6 +36,14 @@ public class LeaveCounters extends BaseEntity {
 	public void increaseRemainingRtt(Integer count) {
 		remainingRtt += count;
 	}
+
+	public void decreaseRemainingPaidLeaves(Integer count) {
+		remainingPaidLeaves -= count;
+	}
+
+	public void decreaseRemainingRtt(Integer count) {
+		remainingRtt -= count;
+	}
 	
 	public Integer getRemainingPaidLeaves() {
 		return remainingPaidLeaves;

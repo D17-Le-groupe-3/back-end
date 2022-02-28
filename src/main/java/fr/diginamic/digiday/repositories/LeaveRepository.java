@@ -32,4 +32,6 @@ public interface LeaveRepository extends JpaRepository<Leave, Integer> {
      */
     @Query("select l from Leave l where l.user = ?1 and ((month(l.startDate) = month(?2) and year(l.startDate) = year(?3)) or (month(l.endDate) = month(?2) and year(l.endDate) = year(?3)) or ?2 between l.startDate and l.endDate)")
     List<Leave> findByUserAndTimeInterval(User user, LocalDate startDate, LocalDate endDate);
+  
+    List<Leave> findByStatusOrderByStartDateAsc(LeaveStatus status);
 }
