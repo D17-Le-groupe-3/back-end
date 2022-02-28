@@ -1,9 +1,11 @@
 package fr.diginamic.digiday.controller;
 
 import fr.diginamic.digiday.dto.CompanyHolidayDto;
+import fr.diginamic.digiday.dto.CreateCompanyHolidayDto;
 import fr.diginamic.digiday.entities.CompanyHoliday;
 import fr.diginamic.digiday.services.CompanyHolidayService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +41,17 @@ public class CompanyHolidayController {
     		results = companyHolidayService.getCompanyHolidaysByMonthAndYear(month.get(), year);
         return results.stream().map(companyHoliday -> modelMapper.map(companyHoliday, CompanyHolidayDto.class))
             .collect(Collectors.toList());
+    }
+
+  /**
+     * Répond à une requête post de création de jour férié/RTT employeur.
+     *
+     * @param CreateCompanyHolidayDto données du jour férié/RTT employeur
+     * @return le jour férié/RTT employeur créé
+     */
+    @PostMapping
+    public ResponseEntity<CompanyHolidayDto> createCompanyHoliday(@RequestBody CreateCompanyHolidayDto createCompanyHolidayDto) {
+    	return ResponseEntity.ok(modelMapper.map(companyHolidayService.createCompanyHoliday(createCompanyHolidayDto), CompanyHolidayDto.class));
     }
 
     /**
